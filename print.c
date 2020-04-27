@@ -3,11 +3,13 @@
 #include "ast.h"
 #include "print.h"
 
-#define NO_ASSOC 0
-#define LEFT_ASSOC 1
-#define RIGHT_ASSOC 2
+enum operator_assoc {
+	NO_ASSOC,
+	LEFT_ASSOC,
+	RIGHT_ASSOC,
+};
 
-static int expr_assoc(struct ast_expr *expr)
+static enum operator_assoc expr_assoc(struct ast_expr *expr)
 {
 	if (expr->tag == AST_EXPR_CONSTANT) {
 		return NO_ASSOC;
@@ -48,7 +50,7 @@ void print_ast_expr(struct ast_expr *expr)
 	}
 	int prec = expr_precedence(expr);
 	int lprec = expr_precedence(expr->binary_op.left);
-	int lassoc = expr_assoc(expr->binary_op.left);
+	enum operator_assoc lassoc = expr_assoc(expr->binary_op.left);
 	if (lprec < prec || (lprec == prec && lassoc == RIGHT_ASSOC)) {
 		printf("(");
 		print_ast_expr(expr->binary_op.left);
@@ -58,7 +60,7 @@ void print_ast_expr(struct ast_expr *expr)
 	}
 	printf(" %c ", binary_op_tag_string[expr->binary_op.tag]);
 	int rprec = expr_precedence(expr->binary_op.right);
-	int rassoc = expr_assoc(expr->binary_op.right);
+	enum operator_assoc rassoc = expr_assoc(expr->binary_op.right);
 	if (rprec < prec || (rprec == prec && rassoc == LEFT_ASSOC)) {
 		printf("(");
 		print_ast_expr(expr->binary_op.right);
