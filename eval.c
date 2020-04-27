@@ -1,7 +1,7 @@
 #include "ast.h"
 #include "eval.h"
 
-int ipow(int x, int y)
+static int ipow(int x, int y)
 {
 	int r = 1;
 	while (y-- > 0) {

@@ -5,7 +5,7 @@
 #include "trace.h"
 #include "eval.h"
 
-void internal_trace_ast_expr(struct ast_expr *root, struct ast_expr *expr)
+static void internal_trace_ast_expr(struct ast_expr *root, struct ast_expr *expr)
 {
 	if (expr->tag == AST_EXPR_CONSTANT) {
 		return;
