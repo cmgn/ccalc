@@ -1,13 +1,24 @@
 #include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
 
 #include "ast.h"
-#include "eval.h"
 #include "lexer.h"
+#include "trace.h"
 #include "parser.h"
-#include "print.h"
+
+void handle_sigfpe(int sigid)
+{
+	printf("terminating: floating point exception\n");
+	exit(1);
+}
 
 int main(int argc, char **argv)
 {
+	if (signal(SIGFPE, handle_sigfpe) < 0) {
+		perror("did not initialise floating point signal handler");
+		return 1;
+	}
 	for (int i = 1; i < argc; i++) {
 		struct lexer l = { argv[i], argv[i], 0 };
 		struct ast_expr *e = parse_expr(&l);
@@ -15,8 +26,7 @@ int main(int argc, char **argv)
 			printf("%s\n", l.err);
 			continue;
 		}
-		print_ast_expr(e);
-		printf("\n= %d\n", eval(e));
+		trace_ast_expr(e);
 		free_ast_expr(e);
 	}
 }
