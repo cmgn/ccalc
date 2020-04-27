@@ -12,7 +12,7 @@ static void internal_trace_ast_expr(struct ast_expr *root, struct ast_expr *expr
 	}
 	internal_trace_ast_expr(root, expr->binary_op.left);
 	internal_trace_ast_expr(root, expr->binary_op.right);
-	int result = eval(expr);
+	int result = eval_ast_expr(expr);
 	free_ast_expr(expr->binary_op.left);
 	free_ast_expr(expr->binary_op.right);
 	*expr = (struct ast_expr) {

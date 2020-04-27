@@ -3,6 +3,6 @@
 
 #include "ast.h"
 
-int eval(struct ast_expr *expr);
+int eval_ast_expr(struct ast_expr *expr);
 
 #endif

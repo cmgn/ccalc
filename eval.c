@@ -10,14 +10,14 @@ static int ipow(int x, int y)
 	return r;
 }
 
-int eval(struct ast_expr *e)
+int eval_ast_expr(struct ast_expr *e)
 {
 	switch (e->tag) {
 	case AST_EXPR_CONSTANT:
 		return e->constant.value;
 	case AST_EXPR_BINARY_OP: {
-		int l = eval(e->binary_op.left);
-		int r = eval(e->binary_op.right);
+		int l = eval_ast_expr(e->binary_op.left);
+		int r = eval_ast_expr(e->binary_op.right);
 		switch (e->binary_op.tag) {
 		case AST_BINARY_OP_ADD:
 			return l + r;
