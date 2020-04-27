@@ -11,6 +11,10 @@ int main(int argc, char **argv)
 	for (int i = 1; i < argc; i++) {
 		struct lexer l = { argv[i], argv[i], 0 };
 		struct ast_expr *e = parse_expr(&l);
+		if (l.err) {
+			printf("%s\n", l.err);
+			continue;
+		}
 		print_ast_expr(e);
 		printf("\n= %d\n", eval(e));
 		free_ast_expr(e);
