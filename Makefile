@@ -1,8 +1,13 @@
-CFLAGS = -Wall -Werror
-MODULES = token.o lexer.o ast.o parser.o eval.o print.o
+CFLAGS = -Wall -Werror -fPIC
+BINARY = main
+SHAREDLIB = ccalc.so
+MODULES = token.o lexer.o ast.o parser.o eval.o print.o trace.o
 
-main: $(MODULES)
-	$(CC) $(CFLAGS) -o main main.c $(MODULES)
+main: lib
+	$(CC) $(CFLAGS) main.c $(SHAREDLIB) -o $(BINARY)
+
+lib: $(MODULES)
+	$(CC) $(CFLAGS) $(MODULES) -shared -o $(SHAREDLIB)
 
 clean:
-	$(RM) main $(MODULES)
+	$(RM) $(BINARY) $(MODULES) $(SHAREDLIB)
