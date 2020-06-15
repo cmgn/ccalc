@@ -2,11 +2,12 @@
 
 #include "lexer.h"
 
-static int scan_integer(const char *s)
+static int scan_integer(const char **s)
 {
 	int n = 0;
-	while (isdigit(*s)) {
-		n = n*10 + *s++ - '0';
+	while (isdigit(**s)) {
+		n = n*10 + **s - '0';
+		(*s)++;
 	}
 	return n;
 }
@@ -48,7 +49,8 @@ void next_token(struct lexer *l, struct token *t)
 		}
 		if (isdigit(c)) {
 			t->tag = TOKEN_INTEGER;
-			t->int_value = scan_integer(l->pos-1);
+			l->pos--;
+			t->int_value = scan_integer(&l->pos);
 			return;
 		}
 		if (operator_type(c) != TOKEN_ERROR) {
