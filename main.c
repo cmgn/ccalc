@@ -10,7 +10,7 @@
 void handle_sigfpe(int sigid)
 {
 	printf("terminating: floating point exception\n");
-	exit(1);
+	exit(2);
 }
 
 int main(int argc, char **argv)
