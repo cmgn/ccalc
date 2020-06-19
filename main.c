@@ -4,8 +4,8 @@
 
 #include "ast.h"
 #include "lexer.h"
-#include "trace.h"
 #include "parser.h"
+#include "trace.h"
 
 void handle_sigfpe(int sigid)
 {
